@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="screen" class="form-control" type="text">
+                    <button class="generate-btn" id="generateBtn">Generate Pin</button>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id="screen2" class="form-control" type="text">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div class="button" id="sevenBtn"><span id="seven">7</span></div>
+                              <div class="button" id="eightBtn"><span id="eight">8</span></div>
+                              <div class="button" id="nineBtn"><span id="nine">9</span></div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" id="fourBtn"><span id="four">4</span></div>
+                              <div class="button" id="fiveBtn"><span id="five">5</span></div>
+                              <div class="button" id="sixBtn"><span id="six">6</span></div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" id="oneBtn"><span id="one">1</span></div>
+                              <div class="button" id="twoBtn"><span id="two">2</span></div>
+                              <div class="button" id="threeBtn"><span id="three">3</span></div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" id="backspace"><</div>
+                                <div class="button" id="zeroBtn"><span id="zero">0</span></div>
+                                <div class="button" id="clearBtn">C</div>
+                            </div>
+                            <div>
+                                <button type="submit" class="submit-btn" id="submitBtn" >Submit</button>
+                                <p class="action-left"><span id="wait"><span id="count">3</span> try left</span> </p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section" id="match">
+            <p class="notify" >✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+        <div class="notify-section" id="mismatch">
+            <p class="notify">❌ Pin Didn't Match, Please try again</p>
+        </div>
+    </div>
+
+
+
+    <script>
+         
+
+          //hide notification //
+          match.style.display = "none";
+          mismatch.style.display = "none";
+
+
+        //Generate Pin Code
+         const generateBtn = document.getElementById("generateBtn");
+         generateBtn.addEventListener("click", function(){
+
+             const genRandomNum = Math.random()*10000;
+             const randomNum = Math.round(genRandomNum);
+             const screen = randomNum;
+
+             if(randomNum > 999 && randomNum<10000)
+                {
+                    document.getElementById("screen").value = screen; 
+                }
+         })
+
+
+
+
+
+        //Input pin Code
+         const zeroBtn = document.getElementById("zeroBtn");
+         zeroBtn.addEventListener("click", function(){
+            screenOutput("zero");
+         })
+
+         const oneBtn = document.getElementById("oneBtn");
+         oneBtn.addEventListener("click", function(){
+            screenOutput("one");
+         })
+
+         const twoBtn = document.getElementById("twoBtn");
+         twoBtn.addEventListener("click", function(){
+            screenOutput("two");
+         })
+
+         const threeBtn = document.getElementById("threeBtn");
+         threeBtn.addEventListener("click", function(){
+            screenOutput("three");
+         })
+
+         const fourBtn = document.getElementById("fourBtn");
+         fourBtn.addEventListener("click", function(){
+            screenOutput("four");
+         })
+
+         const fiveBtn = document.getElementById("fiveBtn");
+         fiveBtn.addEventListener("click", function(){
+            screenOutput("five");
+         })
+
+         const sixBtn = document.getElementById("sixBtn");
+         sixBtn.addEventListener("click", function(){
+            screenOutput("six");
+         })
+
+         const sevenBtn = document.getElementById("sevenBtn");
+         sevenBtn.addEventListener("click", function(){
+            screenOutput("seven");
+         })
+
+         const eightBtn = document.getElementById("eightBtn");
+         eightBtn.addEventListener("click", function(){
+            screenOutput("eight");
+         })
+
+         const nineBtn = document.getElementById("nineBtn");
+         nineBtn.addEventListener("click", function(){
+            screenOutput("nine");
+         })
+
+
+         function screenOutput(id){
+            const num = document.getElementById(id).innerText;
+            const Number = parseFloat(num);
+            document.getElementById("screen2").value += Number;
+         }
+
+
+
+
+         //BackSpace
+        const backspace = document.getElementById("backspace");
+        backspace.addEventListener('click', function(){
+            const screen2 = document.getElementById("screen2").value;
+            const screen2Num = '' + screen2;
+            const updatedScreen2Num = screen2Num.slice(0, -1);
+            document.getElementById("screen2").value = updatedScreen2Num;            
+        })
+        
+
+
+        //clear  All screen value
+        const clearBtn = document.getElementById("clearBtn");
+        clearBtn.addEventListener("click", function(){
+            document.getElementById("screen2").value = "";
+         })
+
+
+
+        //Match Pin Code, Update Left action, Notification
+        const submitBtn = document.getElementById("submitBtn");
+        submitBtn.addEventListener('click', function(){
+                    const cont = document.getElementById('count').innerText;
+                    const countNum = parseFloat(cont);
+                    let UpdatedCountNum = countNum; 
+
+                    if(UpdatedCountNum > 1){
+                            let UpdatedCount = UpdatedCountNum - 1;
+                            document.getElementById('count').innerText = UpdatedCount;
+
+                            //Match Pin code
+                            const screen2 = document.getElementById("screen2").value;
+                            const screen = document.getElementById("screen").value;
+                            if(screen == screen2){
+                                match.style.display = "block";
+                                mismatch.style.display = "none"
+
+                                let UpdatedCount2 = UpdatedCount + 1;
+                                document.getElementById('count').innerText = UpdatedCount2;
+
+                            }
+
+                            else{
+                                mismatch.style.display = "block";
+                                match.style.display = "none";
+                            }
+                    }
+
+ 
+
+                    else{
+                        const wait = document.getElementById('wait').innerText;
+                        const UpdatedWait = "Wait For Few Moments";
+
+                        document.getElementById('wait').innerText = UpdatedWait;
+                        
+                    }
+                                     
+        })
+
+
+        
+    
+    </script>
+</body>
+</html>
